@@ -1,11 +1,13 @@
-require 'rack'
+use Rack::Static,
+  :urls => ["/public"],
+  :root => "public"
 
-app = Proc.new do |env|
+run lambda { |env|
   [
-    '200',
-    {'Content-Type' => 'text/html'},
-    File.open("test.html", File::RDONLY)
+    200,
+    {
+      'Content-Type'  => 'text/html'
+    },
+    File.open('public/test.html', File::RDONLY)
   ]
-end
-
-Rack::Handler::WEBrick.run app
+}
