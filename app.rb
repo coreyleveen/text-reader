@@ -1,5 +1,8 @@
 require 'sinatra'
+set :views, settings.root
+
+enable :sessions
 
 get '/' do
-  send_file "index.html"
+  haml :index
 end
