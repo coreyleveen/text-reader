@@ -1,3 +1,6 @@
 !!!
 
 Hello world!
+
+%form{action: "/upload", method: "POST", id: "photo_form"}
+  %input{type: "file", capture: "camera", accept: "image/*", id: "cameraInput", name: "cameraInput"}
