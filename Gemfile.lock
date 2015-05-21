@@ -1,14 +1,8 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    coderay (1.1.0)
     haml (4.0.6)
       tilt
-    method_source (0.8.2)
-    pry (0.10.1)
-      coderay (~> 1.1.0)
-      method_source (~> 0.8.1)
-      slop (~> 3.4)
     rack (1.6.1)
     rack-protection (1.5.3)
       rack
@@ -21,7 +15,6 @@ GEM
     sinatra-reloader (0.5.0)
       sinatra (~> 1.0)
       sinatra-advanced-routes (~> 0.5.0)
-    slop (3.6.0)
     tilt (2.0.1)
 
 PLATFORMS
@@ -29,6 +22,5 @@ PLATFORMS
 
 DEPENDENCIES
   haml
-  pry
   sinatra
   sinatra-reloader

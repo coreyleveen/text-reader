@@ -8,6 +8,5 @@ get '/' do
 end
 
 post '/upload' do
-  puts "Hit upload"
   redirect to '/'
 end
