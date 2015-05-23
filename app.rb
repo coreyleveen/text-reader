@@ -8,11 +8,16 @@ get '/' do
 end
 
 post '/upload' do
-  id = session[:session_id][0...32]
+  filename = params['cameraInput'][:filename] << session[:session_id][0...32]
 
-  File.open('uploads/' << params['cameraInput'][:filename] << id, "w") do |f|
+  File.open('uploads/' << filename, "w") do |f|
     f.write(params['cameraInput'][:tempfile].read)
   end
 
-  "Uploaded #{params['cameraInput'][:filename]}!"
+  HTTParty.post("/get_photo",
+    :body => { :file => filename }.to_json,
+    :headers => { 'Content-Type' => 'application/json' }
+  )
+
+  "Uploaded #{filename}!"
 end
