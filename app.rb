@@ -1,7 +1,5 @@
 require 'sinatra'
 
-set :views, settings.root
-
 enable :sessions
 
 
@@ -10,8 +8,11 @@ get '/' do
 end
 
 post '/upload' do
-  File.open('uploads/' << params['cameraInput'][:filename], "w") do |f|
+  id = session[:session_id][0...32]
+
+  File.open('uploads/' << params['cameraInput'][:filename] << id, "w") do |f|
     f.write(params['cameraInput'][:tempfile].read)
   end
+
   "Uploaded #{params['cameraInput'][:filename]}!"
 end
