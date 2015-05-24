@@ -3,6 +3,11 @@ GEM
   specs:
     haml (4.0.6)
       tilt
+    httparty (0.11.0)
+      multi_json (~> 1.0)
+      multi_xml (>= 0.5.2)
+    multi_json (1.11.0)
+    multi_xml (0.5.5)
     rack (1.6.1)
     rack-protection (1.5.3)
       rack
@@ -22,5 +27,6 @@ PLATFORMS
 
 DEPENDENCIES
   haml
+  httparty
   sinatra
   sinatra-reloader
