@@ -21,4 +21,15 @@ form.onsubmit = function(e) {
     var xhr = new XMLHttpRequest();
 
     xhr.open("POST", "/to_voice", true);
-}
+
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            alert("Success!");
+            submitButton.value = "Upload";
+        } else {
+            alert("An error occurred :/");
+        }
+    };
+
+    xhr.send(formData);
+};

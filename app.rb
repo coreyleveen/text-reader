@@ -12,5 +12,4 @@ get '/' do
 end
 
 post '/to_voice' do
-
 end
