@@ -20,5 +20,5 @@ form.onsubmit = function(e) {
 
     var xhr = new XMLHttpRequest();
 
-    debugger;
+    xhr.open("POST", "/to_voice", true);
 }
