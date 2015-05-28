@@ -15,8 +15,10 @@ form.onsubmit = function(e) {
         return;
     }
 
+    var fr = new FileReader();
+    var result = fr.readAsDataURL(file);
+
     var formData = new FormData();
-    formData.append("photo", file, file.name);
 
     var xhr = new XMLHttpRequest();
 
