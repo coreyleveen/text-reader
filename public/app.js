@@ -15,23 +15,42 @@ form.onsubmit = function(e) {
         return;
     }
 
-    var fr = new FileReader();
-    var result = fr.readAsDataURL(file);
 
-    var formData = new FormData();
+    var reader = new FileReader();
 
-    var xhr = new XMLHttpRequest();
+    reader.onload = function(e) {}
+        var contents = e.target.result;
+        // Creates an ArrayBuffer representation of the file
 
-    xhr.open("POST", "/to_voice", true);
+        console.log("File contents: " + contents);
 
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            alert("Success!");
-            submitButton.value = "Upload";
-        } else {
-            alert("An error occurred :/");
-        }
+        var uintc8 = new Uint8ClampedArray(contents);
+        debugger;
     };
 
-    xhr.send(formData);
+    reader.onerror = function(e) {
+        console.error("File could not be read! Code " + e.target.error.code);
+    };
+
+    reader.readAsArrayBuffer(file);
+
+    debugger;
+
+
+    // var formData = new FormData();
+
+    // var xhr = new XMLHttpRequest();
+
+    // xhr.open("POST", "/to_voice", true);
+
+    // xhr.onload = function() {
+    //     if (xhr.status === 200) {
+    //         alert("Success!");
+    //         submitButton.value = "Upload";
+    //     } else {
+    //         alert("An error occurred :/");
+    //     }
+    // };
+
+    // xhr.send(formData);
 };
