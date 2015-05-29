@@ -15,17 +15,28 @@ form.onsubmit = function(e) {
         return;
     }
 
+    var img = new Image();
+
+    var height,
+        width;
+
+    img.onload = function() {
+        height = this.height;
+        width  = this.width;
+    };
+
+
+    img.src = URL.createObjectURL(file);
 
     var reader = new FileReader();
 
-    reader.onload = function(e) {}
+    reader.onload = function(e) {
         var contents = e.target.result;
         // Creates an ArrayBuffer representation of the file
 
         console.log("File contents: " + contents);
 
         var uintc8 = new Uint8ClampedArray(contents);
-        debugger;
     };
 
     reader.onerror = function(e) {
