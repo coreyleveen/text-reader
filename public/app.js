@@ -17,35 +17,18 @@ form.onsubmit = function(e) {
 
     var img = new Image();
 
-    var height,
-        width;
-
     img.onload = function() {
-        height = this.height;
-        width  = this.width;
+        var canvas = document.createElement("canvas");
+        var context = canvas.getContext("2d");
+        context.drawImage(this, 0, 0);
+        var myData = context.getImageData(0, 0, this.width, this.height);
+        var text = OCRAD(myData);
+        alert(text);
+        window.location.reload();
     };
 
     img.src = URL.createObjectURL(file);
 
-    var reader = new FileReader();
-    var uintc8;
-
-    reader.onload = function(e) {
-        var contents = e.target.result;
-        // Creates an ArrayBuffer representation of the file
-
-        uintc8 = new Uint8ClampedArray(contents);
-    };
-
-    reader.onerror = function(e) {
-        console.error("File could not be read! Code " + e.target.error.code);
-    };
-
-    reader.readAsArrayBuffer(file);
-
-    data = new ImageData()
-
-    debugger;
 
 
     // var formData = new FormData();
