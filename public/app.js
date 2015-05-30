@@ -25,18 +25,16 @@ form.onsubmit = function(e) {
         width  = this.width;
     };
 
-
     img.src = URL.createObjectURL(file);
 
     var reader = new FileReader();
+    var uintc8;
 
     reader.onload = function(e) {
         var contents = e.target.result;
         // Creates an ArrayBuffer representation of the file
 
-        console.log("File contents: " + contents);
-
-        var uintc8 = new Uint8ClampedArray(contents);
+        uintc8 = new Uint8ClampedArray(contents);
     };
 
     reader.onerror = function(e) {
@@ -44,6 +42,8 @@ form.onsubmit = function(e) {
     };
 
     reader.readAsArrayBuffer(file);
+
+    data = new ImageData()
 
     debugger;
 
