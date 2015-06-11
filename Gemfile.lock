@@ -29,4 +29,5 @@ PLATFORMS
 DEPENDENCIES
   haml
   httmultiparty
+  multipart-post
   sinatra
