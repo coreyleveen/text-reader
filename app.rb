@@ -19,11 +19,7 @@ post '/upload' do
 
   ocr_uri = "http://api.newocr.com/v1/upload?key=#{ENV['OCR_KEY']}"
 
-  begin
-    RestClient.post(ocr_uri, {:myfile => File.new(file_path, 'rb')})
-  rescue RestClient::ExceptionWithResponse => err
-    err.response
+  RestClient.post ocr_uri, :myfile => File.new(file_path, 'rb') do |res|
   end
-
   redirect to('/')
 end
