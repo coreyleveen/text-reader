@@ -19,7 +19,15 @@ post '/upload' do
 
   ocr_uri = "http://api.newocr.com/v1/upload?key=#{ENV['OCR_KEY']}"
 
-  RestClient.post ocr_uri, :myfile => File.new(file_path, 'rb') do |res|
-  end
+  request = RestClient::Request.new(
+            :method => :post,
+            :url => ocr_uri,
+            :payload => {
+              :multipart => true,
+              :file => File.new(file_path, 'rb')
+            })
+
+  response = request.execute
+
   redirect to('/')
 end
