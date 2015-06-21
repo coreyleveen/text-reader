@@ -1,6 +1,5 @@
 require 'sinatra'
 require 'rest-client'
-require 'pry'
 
 enable :sessions
 
@@ -9,6 +8,7 @@ get '/' do
 end
 
 post '/upload' do
+
   filename = params['cameraInput'][:filename]
 
   file_path = 'uploads/' << filename
@@ -18,7 +18,12 @@ post '/upload' do
   end
 
 
-  ocr_upload_uri = "http://api.newocr.com/v1/upload?key=#{ENV['OCR_KEY']}"
+  OCR_BASE_URI = "http://api.newocr.com/v1/"
+  LANG = "eng"
+  PSM = 3
+  ROTATE = 270
+
+  ocr_upload_uri = OCR_BASE_URI + "upload?key=#{ENV['OCR_KEY']}"
 
   ocr_upload_request = RestClient::Request.new(
                        :method => :post,
@@ -31,10 +36,11 @@ post '/upload' do
   ocr_upload_response = JSON.parse(ocr_upload_request.execute)
 
 
-  if ocr_upload_response["status"] == "success"
-    file_id = ocr_upload_response["file_id"]
-    pages = ocr_upload_response["pages"]
-    ocr_recognition_uri = "http://api.newocr.com/v1/ocr?key=#{ENV['OCR_KEY'}&file_id=#{file_id}&page=#{pages}"
+  if ocr_upload_response['status'] == 'success'
+    file_id = ocr_upload_response['data']['file_id']
+    pages = ocr_upload_response['data']['pages']
+    ocr_recognition_uri = OCR_BASE_URI + "ocr?key=#{ENV['OCR_KEY']}&file_id=#{file_id}"\
+                                         "&page=#{pages}&lang=#{LANG}&psm=#{PSM}&rotate=#{ROTATE}"
 
     ocr_recognition_request = RestClient::Request.new(
                               :method => :get,
@@ -42,21 +48,13 @@ post '/upload' do
                               )
 
     ocr_recognition_response = JSON.parse(ocr_recognition_request.execute)
-    binding.pry
 
-  else 
+    puts ocr_recognition_response['data']['text']
+
+  else
     puts ocr_upload_response["status"]
     puts ocr_upload_response["message"]
   end
-
-  binding.pry
-
-#  ocr_recognition_request = RestClient::Request.new(
-#                            :method => :get,
-#:url => 
-          
-
-
 
   redirect to('/')
 end
