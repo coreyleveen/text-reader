@@ -39,7 +39,7 @@ module TextReader
                           "&page=#{pages}&lang=#{LANG}&psm=#{PSM}&rotate=#{ROTATE}"
 
         recognition_request = RestClient::Request.new(
-                              :method=> :get,
+                              :method => :get,
                               :url => recognition_uri
                               )
 
