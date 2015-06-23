@@ -1,5 +1,6 @@
+require 'pry'
 module TextReader
-  OCR_BASE_URI = "http://api.newocr/com/v1/"
+  OCR_BASE_URI = "http://api.newocr.com/v1/"
   LANG = "eng"
   PSM = 3
   ROTATE = 270
@@ -10,7 +11,7 @@ module TextReader
       @upload_uri = OCR_BASE_URI + "upload?key=#{ENV['OCR_KEY']}"
     end
 
-    attr_reader :image_path, :upload_uri
+    attr_reader :img_path, :upload_uri
 
     def read_image
       retrieve_text(upload_image)
@@ -26,6 +27,7 @@ module TextReader
                          :multipart => true,
                          :file => File.new(img_path, 'rb')
                        })
+
 
       JSON.parse(upload_request.execute)
     end

@@ -1,12 +1,12 @@
 module TextReader
   class Speaker
     def initialize(text)
-      @text = text
+      @text = URI.escape(text)
       @voice_key    = ENV['VOICE_KEY']
       @voice_secret = ENV['VOICE_SECRET']
     end
 
-    attr_reader :text
+    attr_reader :text, :voice_key
 
     VOICE_URI     = "http://api.ispeech.org/api/rest"
     ACTION        = "convert"
@@ -15,8 +15,6 @@ module TextReader
     FREQUENCY     = 44100
     BITRATE       = 128
     SPEED         = 1
-    START_PADDING = 1
-    END_PADDING   = 1
     PITCH         = 110
     FILENAME      = "voice_file"
 
@@ -32,12 +30,14 @@ module TextReader
                         "&text=#{text}&voice=#{VOICE}"\
                         "&format=#{FORMAT}&frequency=#{FREQUENCY}"\
                         "&bitrate=#{BITRATE}&speed=#{SPEED}"\
-                        "&startpadding=#{START_PADDING}"\
-                        "&endpadding=#{END_PADDING}"\
                         "&pitch=#{PITCH}&filename=#{FILENAME}"
 
       sound_request = RestClient::Request.new(
-                      :method 
+                      :method => :get,
+                      :url => uri
+                      )
+
+      sound_response = JSON.parse(sound_request.execute)
     end
      
   end

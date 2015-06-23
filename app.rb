@@ -1,5 +1,7 @@
 require 'sinatra'
 require 'rest-client'
+require_relative 'lib/reader'
+require_relative 'lib/speaker'
 
 enable :sessions
 
@@ -17,18 +19,15 @@ post '/upload' do
     f.write(params['cameraInput'][:tempfile].read)
   end
   
+  text = TextReader::Reader.new(file_path).read_image
 
-    text = TextReader::Reader.new(file_path).read_image
+  TextReader::Speaker.new(text).speak
 
-    VOICE_URI = "http://api.ispeech.org/api/rest"
+  File.delete(file_path)
 
-    File.delete(file_path)
-
-  else
-    puts ocr_upload_response["status"]
-    puts ocr_upload_response["message"]
-    File.delete(file_path)
-  end
+  puts ocr_upload_response["status"]
+  puts ocr_upload_response["message"]
+  File.delete(file_path)
 
   redirect to('/')
 end
