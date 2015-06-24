@@ -2,21 +2,12 @@ module TextReader
   class Speaker
     def initialize(text)
       @text = URI.escape(text)
-      @voice_key    = ENV['VOICE_KEY']
-      @voice_secret = ENV['VOICE_SECRET']
+      @authorization = "Bearer #{ENV['VOICE_TOKEN']}"
     end
 
-    attr_reader :text, :voice_key
+    attr_reader :text, :authorization
 
-    VOICE_URI     = "http://api.ispeech.org/api/rest"
-    ACTION        = "convert"
-    VOICE         = "usenglishfemale"
-    FORMAT        = "mp3"
-    FREQUENCY     = 44100
-    BITRATE       = 128
-    SPEED         = 1
-    PITCH         = 110
-    FILENAME      = "voice_file"
+    VOICE_URI     = "https://api.att.com/speech/v3/textToSpeech"
 
     def speak
       retrieve_sounds
@@ -26,15 +17,16 @@ module TextReader
     private
 
     def retrieve_sounds
-      uri = VOICE_URI + "?apikey=#{voice_key}&action=#{ACTION}"\
-                        "&text=#{text}&voice=#{VOICE}"\
-                        "&format=#{FORMAT}&frequency=#{FREQUENCY}"\
-                        "&bitrate=#{BITRATE}&speed=#{SPEED}"\
-                        "&pitch=#{PITCH}&filename=#{FILENAME}"
+      uri = VOICE_URI + "?authorization=#{authorization}" 
 
       sound_request = RestClient::Request.new(
-                      :method => :get,
-                      :url => uri
+                      :method => :post,
+                      :url => uri,
+                      :headers => {
+                        'Authorization' => authorization,
+                        'Content-Type'  => 'text/plain'
+                      },
+                      :body => text
                       )
 
       sound_response = JSON.parse(sound_request.execute)
