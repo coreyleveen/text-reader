@@ -1,13 +1,13 @@
 module TextReader
   class Speaker
     def initialize(text)
-      @text = URI.escape(text)
+      @text = text
       @authorization = "Bearer #{ENV['VOICE_TOKEN']}"
     end
 
     attr_reader :text, :authorization
 
-    VOICE_URI     = "https://api.att.com/speech/v3/textToSpeech"
+    VOICE_URI = "https://api.att.com/speech/v3/textToSpeech"
 
     def speak
       retrieve_sounds
@@ -17,21 +17,22 @@ module TextReader
     private
 
     def retrieve_sounds
-      uri = VOICE_URI + "?authorization=#{authorization}" 
+      uri = VOICE_URI
 
-      sound_request = RestClient::Request.new(
-                      :method => :post,
-                      :url => uri,
-                      :headers => {
-                        'Authorization' => authorization,
-                        'Content-Type'  => 'text/plain'
-                      },
-                      :body => text
-                      )
+      options = {
+        :method => :post,
+        'Authorization' => authorization,
+        'Content-Type'  => 'text/plain',
+        'Accept'        => 'audio/amr-wb'
+      }
 
-      sound_response = JSON.parse(sound_request.execute)
+      RestClient.post(uri, text, options) do |response|
+        # handle response here
+      end
     end
-     
+
+    def send_sounds
+    end
   end
 end
 
