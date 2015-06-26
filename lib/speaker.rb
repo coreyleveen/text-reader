@@ -1,3 +1,4 @@
+require 'pry'
 module TextReader
   class Speaker
     def initialize(text)
@@ -19,6 +20,8 @@ module TextReader
     def retrieve_sounds
       uri = VOICE_URI
 
+      text = keep_alphabetic(text)
+
       options = {
         :method => :post,
         'Authorization' => authorization,
@@ -27,11 +30,15 @@ module TextReader
       }
 
       RestClient.post(uri, text, options) do |response|
-        # handle response here
+        binding.pry
       end
     end
 
     def send_sounds
+    end
+
+    def keep_alphabetic(str)
+      str.gsub(/[^0-9a-z]/i, '').squeeze(' ')
     end
   end
 end
