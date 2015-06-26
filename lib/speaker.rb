@@ -6,7 +6,8 @@ module TextReader
       @authorization = "Bearer #{ENV['VOICE_TOKEN']}"
     end
 
-    attr_reader :text, :authorization
+    attr_accessor :text
+    attr_reader :authorization
 
     VOICE_URI = "https://api.att.com/speech/v3/textToSpeech"
 
@@ -18,10 +19,6 @@ module TextReader
     private
 
     def retrieve_sounds
-      uri = VOICE_URI
-
-      text = keep_alphabetic(text)
-
       options = {
         :method => :post,
         'Authorization' => authorization,
@@ -29,7 +26,10 @@ module TextReader
         'Accept'        => 'audio/amr-wb'
       }
 
-      RestClient.post(uri, text, options) do |response|
+      RestClient.post(VOICE_URI, keep_alphabetic(text), options) do |response|
+        if response.include? "UnAuthorized Request"
+          get_new_token
+        end
         binding.pry
       end
     end
@@ -39,6 +39,22 @@ module TextReader
 
     def keep_alphabetic(str)
       str.gsub(/[^0-9a-z]/i, '').squeeze(' ')
+    end
+
+    def get_new_token
+      uri = "https://api.att.com/oauth/v4/token"
+      data = "client_id=#{ENV['VOICE_KEY']}&client_secret=#{ENV['VOICE_SECRET']}"\
+             "&grant_type=client_credentials&scope=TTS"
+
+      options = {
+        'Accept' => 'application/json',
+        'Content-Type' => 'application/x-www-form-urlencoded',
+        :data => data
+      }
+
+      RestClient.get(uri, options) do |response|
+        binding.pry
+      end
     end
   end
 end

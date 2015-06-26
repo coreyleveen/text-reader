@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'rest-client'
+require 'pry'
 require_relative 'lib/reader'
 require_relative 'lib/speaker'
 
@@ -23,10 +24,9 @@ post '/upload' do
 
   TextReader::Speaker.new(text).speak
 
-  File.delete(file_path)
-
   puts ocr_upload_response["status"]
   puts ocr_upload_response["message"]
+
   File.delete(file_path)
 
   redirect to('/')
