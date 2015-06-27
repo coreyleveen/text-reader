@@ -1,4 +1,3 @@
-require 'pry'
 module TextReader
   OCR_BASE_URI = "http://api.newocr.com/v1/"
   LANG = "eng"
