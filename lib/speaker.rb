@@ -30,6 +30,7 @@ module TextReader
           if response.include? "UnAuthorized Request"
             raise InvalidTokenError, "Invalid token!"
           end
+
         end
       rescue InvalidTokenError => e
         warn e.message
@@ -49,19 +50,28 @@ module TextReader
     end
 
     def refresh_token
-      uri = "https://api.att.com/oauth/v4/token"
+      uri = "https://api.att.com/oauth/v4/token"\
 
-      data = "client_id=#{ENV['VOICE_KEY']}&client_secret=#{ENV['VOICE_SECRET']}"\
-             "&grant_type=refresh_token&refresh_token=#{ENV['VOICE_REFRESH']}"
-
-      options = {
-        :accept       => 'application/json',
-        :content_type => 'application/x-www-form-urlencoded'
+      data = {
+        :client_id     => ENV['VOICE_KEY'],
+        :client_secret => ENV['VOICE_SECRET'],
+        :grant_type    => 'client_credentials',
+        :scope         => 'TTS'
       }
 
-      RestClient.post(uri, data, options) do |response|
+      RestClient.post(uri, data) do |response|
         res = JSON.parse(response)
-        ENV['VOICE_TOKEN'] = res['access_token']
+
+        if res['access_token']
+          token_data = {
+            'VOICE_TOKEN'   => res['access_token'],
+            'REFRESH_TOKEN' => res['refresh_token']
+          }
+
+          ENV.update(token_data)
+        else
+          warn res
+        end
       end
     end
   end
