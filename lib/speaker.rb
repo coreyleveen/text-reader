@@ -29,15 +29,19 @@ module TextReader
         RestClient.post(VOICE_URI, keep_alphabetic(text), options) do |response|
           if response.include? "UnAuthorized Request"
             raise InvalidTokenError, "Invalid token!"
+          else
+            # Handle wav file response
           end
-
         end
       rescue InvalidTokenError => e
         warn e.message
         refresh_token
+        options['Authorization'] = "Bearer #{ENV['VOICE_TOKEN']}"
         if retries > 0
           retries -= 1
           retry
+        else
+          puts "Token refresh attempts exhausted"
         end
       end
     end
@@ -50,7 +54,7 @@ module TextReader
     end
 
     def refresh_token
-      uri = "https://api.att.com/oauth/v4/token"\
+      uri = "https://api.att.com/oauth/v4/token"
 
       data = {
         :client_id     => ENV['VOICE_KEY'],
