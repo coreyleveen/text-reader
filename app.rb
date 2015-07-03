@@ -23,6 +23,8 @@ post '/upload' do
 
   sounds = TextReader::Speaker.new(text).get_sounds
 
+  TextReader::SpeechInterpreter.new(sounds).interpret
+
   File.delete(file_path)
 
   redirect to('/')
