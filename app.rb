@@ -1,6 +1,5 @@
 require 'sinatra'
 require 'rest-client'
-require 'pry'
 require_relative 'lib/reader'
 require_relative 'lib/speaker'
 
@@ -22,7 +21,7 @@ post '/upload' do
   
   text = TextReader::Reader.new(file_path).read_image
 
-  TextReader::Speaker.new(text).speak
+  sounds = TextReader::Speaker.new(text).get_sounds
 
   File.delete(file_path)
 

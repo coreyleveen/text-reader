@@ -8,14 +8,7 @@ module TextReader
 
     VOICE_URI = "https://api.att.com/speech/v3/textToSpeech"
 
-    def speak
-      retrieve_sounds
-      send_sounds
-    end
-
-    private
-
-    def retrieve_sounds
+    def get_sounds
       options = {
         :method => :post,
         'Authorization' => "Bearer #{ENV['VOICE_TOKEN']}",
@@ -29,14 +22,15 @@ module TextReader
         RestClient.post(VOICE_URI, keep_alphabetic(text), options) do |response|
           if response.include? "UnAuthorized Request"
             raise InvalidTokenError, "Invalid token!"
-          else
-            # Handle wav file response
+          else 
+            return response
           end
         end
       rescue InvalidTokenError => e
         warn e.message
         refresh_token
         options['Authorization'] = "Bearer #{ENV['VOICE_TOKEN']}"
+
         if retries > 0
           retries -= 1
           retry
@@ -46,8 +40,7 @@ module TextReader
       end
     end
 
-    def send_sounds
-    end
+    private
 
     def keep_alphabetic(str)
       str.gsub(/[^0-9a-z]/i, '').squeeze(' ')
