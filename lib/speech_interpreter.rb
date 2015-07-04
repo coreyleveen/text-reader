@@ -14,10 +14,10 @@ module TextReader
     attr_reader :sounds, :amr_id
 
     def interpret
-      file_name = create_amr_file
-      convert_amr_to_mp3(file_name)
+      amr_file_name = create_amr_file
+      convert_amr_to_mp3(amr_file_name)
       send_mp3
-      delete_amr
+      delete_amr(amr_file_name)
       delete_mp3
     end
 
@@ -55,7 +55,8 @@ module TextReader
       binding.pry
     end
 
-    def delete_file
+    def delete_amr(file)
+      File.delete(file)
     end
   end
 end
