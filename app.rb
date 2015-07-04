@@ -2,6 +2,7 @@ require 'sinatra'
 require 'rest-client'
 require_relative 'lib/reader'
 require_relative 'lib/speaker'
+require_relative 'lib/speech_interpreter.rb'
 
 enable :sessions
 

@@ -3,6 +3,7 @@ require 'securerandom'
 module TextReader
   class SpeechInterpreter
     def initialize(sounds)
+      @sounds = sounds
     end
 
     attr_reader :sounds
@@ -22,7 +23,7 @@ module TextReader
 
       file_name = "amr/#{id}.amr"
 
-      File.open(file_name, 'w' do |f|
+      File.open(file_name, 'w') do |f|
         f.write(sounds)
       end
     end
