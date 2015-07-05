@@ -1,8 +1,5 @@
 require 'securerandom'
-require 'pry'
-
 module TextReader
-  BASE_MP3_URI = 'https://api.cloudconvert.com/convert'
 
   class SpeechInterpreter
     def initialize(sounds)
@@ -12,6 +9,8 @@ module TextReader
 
     attr_accessor :amr_id
     attr_reader :sounds, :amr_id
+
+    BASE_MP3_URI = 'https://api.cloudconvert.com/convert'
 
     def interpret
       amr_file_name = create_amr_file
@@ -39,20 +38,13 @@ module TextReader
 
     def convert_amr_to_mp3(file_name)
       api_key = ENV['CONVERT_KEY']
- 
+
       convert_uri = "#{BASE_MP3_URI}?apikey=#{api_key}&input=upload"\
                     "&download=inline&inputformat=amr&outputformat=mp3"
 
-      mp3_request = RestClient::Request.new(
-                    :method => :post,
-                    :url => convert_uri,
-                    :payload => {
-                      :multipart => true,
-                      :file => File.new(file_name)
-                    })
-
-      res = JSON.parse(mp3_request.execute)
-      binding.pry
+      RestClient.post convert_uri, :myfile => File.new(file_name, 'rb') do |res|
+        # Handle mp3 response
+      end
     end
 
     def delete_amr(file)
