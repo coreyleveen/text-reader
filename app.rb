@@ -2,7 +2,7 @@ require 'sinatra'
 require 'rest-client'
 require_relative 'lib/reader'
 require_relative 'lib/speaker'
-require_relative 'lib/speech_interpreter.rb'
+require_relative 'lib/speech_interpreter'
 
 enable :sessions
 
@@ -19,7 +19,7 @@ post '/upload' do
   File.open(file_path, 'w') do |f|
     f.write(params['cameraInput'][:tempfile].read)
   end
-  
+
   text = TextReader::Reader.new(file_path).read_image
 
   sounds = TextReader::Speaker.new(text).get_sounds
