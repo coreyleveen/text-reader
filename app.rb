@@ -11,7 +11,6 @@ get '/' do
 end
 
 post '/upload' do
-
   filename = params['cameraInput'][:filename]
 
   file_path = 'uploads/' << filename
@@ -22,9 +21,7 @@ post '/upload' do
 
   text = TextReader::Reader.new(file_path).read_image
 
-  sounds = TextReader::Speaker.new(text).get_sounds
-
-  TextReader::SpeechInterpreter.new(sounds).interpret
+  TextReader::Messenger.new(text).send_text
 
   File.delete(file_path)
 
