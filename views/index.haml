@@ -2,14 +2,23 @@
 
 %h1 Text-Reader
 
-%form{action: '/upload', method: 'POST',
+%form{action: '/', method: 'POST',
       id: 'photo-form', enctype: 'multipart/form-data'}
 
   %input{type: 'file', capture: 'camera', accept: 'image/*',
          id: 'camera-input', name: 'cameraInput'}
   %input{type: 'submit', value: 'Upload', id: "submit-button"}
 
+.text{id: "text-container", value: @text}
 
-  %script{src: "app.js", type: "text/javascript"}
-  %script{src: "http://code.responsivevoice.org/responsivevoice.js", type: "text/javascript"}
-  %script{src: "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js", type: "text/javascript"}
+%script{src: "app.js", type: "text/javascript"}
+%script{src: "http://code.responsivevoice.org/responsivevoice.js", type: "text/javascript"}
+%script{src: "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js", type: "text/javascript"}
+
+:javascript
+  $(function() {
+      var text = $("#text-container").attr("value");
+      if (text) {
+        responsiveVoice.speak(text);
+      }
+  });
