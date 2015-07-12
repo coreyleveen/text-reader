@@ -1,10 +1,6 @@
 require 'sinatra'
 require 'rest-client'
 require_relative 'lib/reader'
-require_relative 'lib/speaker'
-require_relative 'lib/speech_interpreter'
-
-enable :sessions
 
 get '/' do
   haml :index
@@ -19,9 +15,7 @@ post '/upload' do
     f.write(params['cameraInput'][:tempfile].read)
   end
 
-  text = TextReader::Reader.new(file_path).read_image
-
-  TextReader::Messenger.new(text).send_text
+  RestClient.post '/recognized_text', :text => TextReader::Reader.new(file_path).read_image
 
   File.delete(file_path)
 
