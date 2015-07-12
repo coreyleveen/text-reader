@@ -45,11 +45,17 @@ module TextReader
                               :url => recognition_uri
                               )
 
+
         recognition_response = JSON.parse(recognition_request.execute)
 
-        recognition_response['data']['text']
+        if recognition_response['status'] == 'success'
+          recognition_response['data']['text']
+        else
+          "Image recognition failed, please try again."
+        end
+
       else
-        raise Exception, 'Image upload failed'
+        "Image upload failed, please try again later"
       end
     end
   end
