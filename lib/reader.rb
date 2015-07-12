@@ -50,7 +50,7 @@ module TextReader
         recognition_response['data']['text']
       else
         raise Exception, 'Image upload failed'
-      end 
+      end
     end
   end
 end
