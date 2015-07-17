@@ -1,8 +1,8 @@
 require 'sinatra'
+require 'rest-client'
 require_relative 'lib/reader'
 
 get '/' do
-  @text = nil
   haml :index
 end
 
