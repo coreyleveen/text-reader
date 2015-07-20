@@ -23,6 +23,15 @@
 
     :javascript
       $(function() {
+        $("#submit-button").click(function(e) {
+          e.preventDefault();
+          if ($("#camera-input").val() == "") {
+            alert("You must first choose an image to upload");
+          } else {
+            $("#photo-form").submit();
+          }
+        });
+
         var text = $("#text-container").attr("value");
 
         if (text) {

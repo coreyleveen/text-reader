@@ -55,7 +55,7 @@ module TextReader
         end
 
       else
-        "Image upload failed, please try again later"
+        "Image upload failed, please try again later."
       end
     end
   end
