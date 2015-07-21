@@ -1,0 +1,19 @@
+html {
+  text-align: center;
+}
+
+button, input {
+  background-color: oldlace;
+  display: block;
+  margin: 0 auto;
+  border: 1px solid #000;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  width: 95%;
+}
+
+h1 {
+  font-family: tahoma;
+}
+
