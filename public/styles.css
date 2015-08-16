@@ -3,14 +3,15 @@ html {
 }
 
 button, input {
+  font-size: 64px;
   background-color: oldlace;
   display: block;
   margin: 0 auto;
   border: 1px solid #000;
-  padding: 10px;
   margin-bottom: 5px;
   border-radius: 5px;
   width: 95%;
+  height: 300px;
 }
 
 h1 {

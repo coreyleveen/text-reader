@@ -8,9 +8,9 @@ module TextReader
     attr_reader :img_path, :upload_uri
 
     OCR_BASE_URI = "http://api.newocr.com/v1/"
-    LANG = "eng"
-    PSM = 3
-    ROTATE = 0
+    LANG         = "eng"
+    PSM          = 3
+    ROTATE       = 270
 
     def read_image
       retrieve_text(upload_image)

@@ -32,10 +32,8 @@
           }
         });
 
-        var text = $("#text-container").attr("value");
-
-        if (text) {
-          responsiveVoice.speak(text);
+        if ($("#text-container").attr("value")) {
+          var text = $("#text-container").attr("value");
         }
 
         $("#stop").click(function() {
