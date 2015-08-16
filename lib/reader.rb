@@ -1,5 +1,4 @@
 module TextReader
-
   class Reader
     def initialize(img_path)
       @img_path = img_path
@@ -11,7 +10,7 @@ module TextReader
     OCR_BASE_URI = "http://api.newocr.com/v1/"
     LANG = "eng"
     PSM = 3
-    ROTATE = 270
+    ROTATE = 0
 
     def read_image
       retrieve_text(upload_image)
