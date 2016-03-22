@@ -1,8 +1,8 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-ruby '2.3.0'
+ruby "2.3.0"
 
-gem 'sinatra'
-gem 'haml'
-gem 'rest-client'
-gem 'tesseract-ocr'
+gem "sinatra", "1.4.6"
+gem "haml", "~> 4.0.6"
+gem "rest-client", "~> 1.7"
+gem "tesseract-ocr", "~> 0.1"
